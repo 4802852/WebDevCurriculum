@@ -20,11 +20,18 @@
   - 상대 참조(Relative Ref): 커밋을 선택하는 방법 중 하나로, 커밋을 구분하는 해시값이 매우 길고 복잡하기 때문에 유용하게 쓰일 수 있다.
     - `^`: 한칸 부모, `git checkout main^^`, `git checkout bugFix^`
     - `~<num>`: num 칸 부모, `git checkout HEAD~3`
+    - `^<num>`: num 번째 부모, `git checkout main^2`
   - `git branch -f`: 브랜치를 강제로 옮겨, 특정 커밋에 직접적으로 재지정할 수 있다.
     - `git branch -f main HEAD~3`: main 브랜치를 HEAD 의 3번째 부모로 이동 및 지정
   - `git reset`: 브랜치가 예전의 커밋을 가리키도록 이동한다. `git reset HEAD^`
   - `git revert`: 로컬 브랜치에서는 reset 을 사용할 수 있지만, 리모트 브랜치에서는 변경분을 삭제하고 되돌린 내용을 공유해야 한다. `git revert HEAD`
   - `git cherry-pick`
+    - `git cherry-pic [Commit1] [Commit2] [...]`: 현재 위치(HEAD) 아래에 있는 일련의 커밋들에 대한 복사본을 만든다.
+  - 인터렉티브 리베이스(Interactive Rebase): cherry-pick 은 원하는 커밋이 무엇인지 알 때 유용하지만, 모를때는 인터렉티브 리베이스를 이용하여, 리베이스할 일련의 커밋들을 검토할 수 있다.
+    - `git rebase -i HEAD~4`
+  - `git tag`: 커밋에 태그를 달아 이정표로 세울 수 있다. 태그된 커밋은 수정이 불가능하다.
+    - `git tag v1 C1`
+    - `git describe [ref]` => `<tag>_<numCommits>_g<hash>`: describe 명령어를 입력하면 ref 기준으로(입력하지 않을 경우 HEAD) 가장 가까운 부모태그(tag), 해당 태그와 몇 커밋 떨어져 있는지(numCommits), 해당 커밋의 해시(hash) 의 결과를 보여준다.
   - `git clone`
   - `git add`
   - `git push`
