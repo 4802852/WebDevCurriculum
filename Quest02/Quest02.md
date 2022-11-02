@@ -117,9 +117,17 @@
 > > 
 > > `overflow`: 내용의 크기가 해당 요소의 박스를 넘어갈 때 어떻게 처리할지를 결정함.
 > >
-> **float**: 해당 HTML 요소가 주변의 다른 요소들과 자연스럽게 어울리도록 만들어준다.
+> **float**: 해당 HTML 요소가 주변의 다른 요소들과 자연스럽게 어울리도록 만들어준다. 하지만 컨테이너 요소에 float 속성이 적용되면 그 이후에 등장하는 모든 요소들은 정확한 위치를 설정하기 힘들어지므로 `clear` 속성을 통해 이후 나타나는 요소들의 동작을 조절해주어야 한다.
+> >
+> **Flexbox 와 Grid**
+> > 
+> > 가장 외부 container 클래스에 `display: flex;` 를 선언하면 flexbox 를 사용하게 된다. flexbox 의 속성으로 대표적으로 `flex-direction`, `flex-wrap`, `justify-content` 등이 있다.
+> > 
+> > 마찬가지로 container 클래스에 `display: grid;`를 선언하여 grid 를 사용할 수 있다. `grid-template-columns`, `grid-template-rows`, `grid-gap`, `grid-auto-rows`, `grid-auto-columns` 등의 속성을 사용할 수 있다.
 
 * CSS 표준의 역사
+
+
 * 브라우저별 Developer tools
 
 ## Checklist
