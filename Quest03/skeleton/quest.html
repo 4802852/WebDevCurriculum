@@ -1,47 +1,67 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<style>
-			.square {
-				width: 100px;
-				height: 100px;
-				border: 1px dashed black;
-				display: inline-block;
-				margin: 20px;
-			}
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      .square {
+        width: 100px;
+        height: 100px;
+        border: 1px dashed black;
+        display: inline-block;
+        margin: 20px;
+      }
 
-			.enabled {
-				background-color: limegreen;
-				border: 1px solid black;
-			}
-		</style>
-	</head>
-	<body>
-		<section class="row1">
-			<div class="square"></div>
-			<div class="square"></div>
-			<div class="square"></div>
-			<div class="square"></div>
-		</section>
+      .enabled {
+        background-color: limegreen;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="row1">
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+    </section>
 
-		<section class="row2">
-			<div class="square"></div>
-			<div class="square"></div>
-			<div class="square"></div>
-			<div class="square"></div>
-		</section>
+    <section class="row2">
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+    </section>
 
-		<script>
-			let row1Squares = document.querySelectorAll('.row1 .square');
-			for(let node of row1Squares) {
-				/* TODO: node 변수를 어떻게 조작해야 할까요? */
-			}
+    <script>
+      /* Quest03-1 */
+      let row_input = window.prompt("jsStars 줄 수");
+      let row_number = Number(row_input);
 
-			let row2Squares = document.querySelectorAll('.row2 .square');
-			for(let node of row2Squares) {
-				/* TODO: node 변수를 어떻게 조작해야 할까요? */
-			}
-		</script>
-	</body>
+      for (let i = 1; i <= row_number; i++) {
+        let out = " ".repeat(row_number - i) + "*".repeat(2 * i - 1);
+        console.log(out);
+      }
+
+      /* Quest03-2 */
+      let row1Squares = document.querySelectorAll(".row1 .square");
+      for (let node of row1Squares) {
+        /* TODO: node 변수를 어떻게 조작해야 할까요? */
+        node.addEventListener("click", function (e) {
+          if (e.target.style.backgroundColor === "yellow") {
+            e.target.style.backgroundColor = "white";
+          } else {
+            e.target.style.backgroundColor = "yellow";
+          }
+        });
+      }
+
+      let row2Squares = document.querySelectorAll(".row2 .square");
+      for (let node of row2Squares) {
+        /* TODO: node 변수를 어떻게 조작해야 할까요? */
+        node.addEventListener("click", function (e) {
+          e.target.classList.toggle("enabled");
+        });
+      }
+    </script>
+  </body>
 </html>
