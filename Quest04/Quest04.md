@@ -66,8 +66,152 @@
     * 생성자
     * 멤버 함수
     * 멤버 변수
+
+> 클래스는 객체지향 프로그래밍에서 특정 객체를 생성하기 위해 변수와 메소드를 정의하는 일종의 틀로, 객체를 정의하기 위한 상태(멤버 변수)와 메서드(함수)로 구성된다.
+> 
+> 클래스는 다음과 같은 기본 문법을 사용해 만든다.
+>
+> ```
+> class MyClass {
+>   constructor() { ... }
+>   method1() { ... }
+>   method2() { ... }
+> }
+> ```
+> 
+> `new MyClass()`를 호출하면 내부에서 정의한 메서드가 들어 있는 객체가 생성된다. 생성자 메서드 `constructor()`는 `new`에 의해 자동으로 호출된다.
+> 
+> ### 자바스크립트의 클래스
+> 
+> 자바스크립트에서 클래스는 함수의 한 종류이다.
+> 
+> `new MyClass()`를 호출하면 `MyClass`라는 이름의 함수를 만들고, 함수의 본문은 생성자 메서드 constructor 에서 가져오고, `mothod1` 같은 메서드를 MyClass.prototype 에 저장한다.
+>
+> Class 는 함수의 한 종류라고 했지만, Class 키워드로 사용하는 문법이 일반 함수와 다른 점이 몇가지가 있다.
+> 
+> class 로 만든 함수엔 특수 내부 프로퍼티인 `[[IsClassConstructor]]: true` 가 붙는다. 이 프로퍼티는 여러 곳에서 사용되는데, 클래스 생성자를 `new` 와 함께 사용하지 않을때 에러를 발생시키는 것, 클래스 생성자를 문자열로 형변환할 때 class.. 로 시작하는 문자열이 되는 것 등에 쓰인다.
+> 
+> 클래스에 정의된 메서드는 열거할 수 없다(non-enumerable). 클래스의 prototype 프로퍼티에 추가된 메서드의 `enumerable` 플래그는 false 이다.
+> 
+> 그리고 클래스는 항상 엄격 모드로 실행된다는 점이 다르다.
+> 
+> #### getter, setter, computed method name
+> 
+> ```
+> class User {
+>   constructor(name) {
+>     this.name = name;  
+>   }
+>
+>   get name() {
+>     return this._name;
+>   }
+>
+>   set name(value) {
+>     if (value.length < 4) {
+>       alert("이름이 너무 짧습니다.");
+>       return;
+>     }
+>     this._name = value;
+>   }
+> }
+> 
+> let user = new User("보라");
+> alert(user.name);  // 보라
+> 
+> user = new User("");  // 이름이 너무 짧습니다.
+> ```
+> 
+> ```
+> class User {
+>   ['say' + 'Hi']() {
+>     alert("Hello")
+>   }
+> }
+> 
+> new User().sayHi();
+> ```
+> 
+> #### 클래스 필드
+> 
+> 클래스 필드라는 문법을 이용하면 어떤 종류의 프로퍼티도 클래스에 추가할 수 있다.
+> 
+> 클래스를 정의할 때 `<프로퍼티 이름> = <값>` 을 써주면 간단히 클래스 필드를 만들 수 있다.
+
   * 정보의 은폐
+
+> ### 캡슐화(encapsulation)
+> 
+> 캡슐화는 객체지향 프로그래밍의 대표적인 특징 중 하나로 **정보 은닉**의 개념을 포함한다. 자바스크립트에서는 자바와 같이 private, public 과 같은 키워드를 제공하지는 않지만 다른 방법으로 구현이 가능하다.
+> 
+> ```
+> var Developer = function(arg) {
+>   var lang = arg ? arg : '';
+>  
+>   return {
+>     getLang : function() {
+>       return lang;
+>     },
+>     setLang : function(arg) {
+>       lang = arg;
+>     }
+>   }
+> };
+> 
+> var john = new Developer('javascript');
+> 
+> console.log(john.getLang());  // javascript
+>
+> john.setLang('java');
+> 
+> console.log(john.getLang());  // java
+> ```
+> 
+> 위 코드의 Developer 생성자 함수에서 `this` 가 아닌 `var lang = arg ? arg : '';` 으로 선언하면 자바스크립트는 함수형 스코프를 따르기 때문에 private 해진다.
+> 
+> 그리고 `getLang()` 과 `setLang()` 이라는 함수는 **클로저**이기 때문에 외부에서는 `lang` 이라는 변수의 값에 접근할 수 있는 인터페이스가 된다.
+> 
+> 위와 같이 `getLang()` 과 `setLang()` 과 같은 public 메서드를 인터페이스로 제공하고 `lang` 과 같은 private 한 변수에 인터페이스를 통해서만 접근하도록 하는 것이 **모듈 패턴**이다.
+> 
+> ```
+> var Developer = function(obj) {
+>   var developerInfo = obj;
+> 
+>   return {
+>     getDeveloperInfo : function() {
+>       return devleoperInfo;
+>     }
+>   };
+> };
+> 
+> var developer = new Developer({ name: 'John', lang: 'javascript' });
+> 
+> var John = developer.getDeveloperInfo();
+> // {name: 'John', lang: 'javascript' }
+> 
+> John.lang = 'jave'  // 직접 변경
+>
+> var John = developer.getDeveloperInfo();
+> // {name: 'John', lang: 'java' }
+> ```
+> 
+> **일반 변수가 아닌 객체나 배열을 멤버 변수로 가지고 이를 그대로 반환할 경우, 외부에서 이 멤버를 변경할 수있다.** 객체나 배열을 반환하는 경우에는 얕은 복사로 private 멤버의 참조값을 반환하게 되어 참조값을 통해 수정이 가능해지는 것이다. 따라서 반환할 객체나 배열의 정보를 담은 새로운 객체를 만들어 깊은 복사(deep copy)를 거친 후 반환해야 한다.
+
   * 다형성
+
+> ### 다형성(polymorphism)
+> 
+> 다형성이란 하나의 객체가 여러가지 타입을 가질 수 있는 것을 의미한다.
+
+
+
+
+
+
+
+
+
+
 * 코드의 재사용
 
 ## Checklist
