@@ -73,7 +73,7 @@ class Folder {
       };
     };
 
-    folder.addEventListener("click", function (event) {
+    folder.addEventListener("dblclick", function (event) {
       new Window(event.pageX, event.pageY);
     });
   }
