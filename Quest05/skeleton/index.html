@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="/style.css">
-		<script src="/notepad.js"></script>
-	</head>
-	<body>
-		<!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
-		<script>
-			let notepad = new Notepad();
-		</script>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
+    <div id="container">
+      <div id="menuSection">
+        <ul id="fileMenu">
+          <li>
+            <button id="newBtn">New</button>
+          </li>
+          <li>
+            <button id="loadBtn">Load</button>
+          </li>
+          <li>
+            <button id="saveBtn">Save</button>
+          </li>
+          <li>
+            <button id="saveAsBtn">Save As</button>
+          </li>
+        </ul>
+        <ul id="fileList"></ul>
+      </div>
+      <div id="tabSection">
+        <ul id="tabList"></ul>
+      </div>
+      <div id="contentSection">
+        <div id="form">
+          <textarea id="textBox"></textarea>
+        </div>
+      </div>
+    </div>
+    <script src="./notepad.js"></script>
+  </body>
 </html>
