@@ -9,23 +9,45 @@ ul {
 
 #container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin: auto;
   height: 100vh;
 }
 
 #menuSection {
-  flex: 3;
+  height: 20px;
+  margin: 10px;
+}
+
+#fileMenu {
+  display: flex;
+  flex-direction: row;
+}
+
+#fileList {
+  display: none;
 }
 
 #tabSection {
-  flex: 2;
-  background-color: gray;
+  height: auto;
+  background-color: lightgray;
   margin: 0px 10px;
 }
 
+#tabList {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
 #contentSection {
-  flex: 5;
+  margin: 10px 10px;
+}
+
+.tab {
+  flex: 1;
+  background-color: pink;
+  border: 1px solid black;
 }
 
 .activeTab {

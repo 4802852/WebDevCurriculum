@@ -7,17 +7,17 @@ class Notepad {
   }
 
   static createListNode(name) {
-    const li = document.createElement("li");
-    li.className = "noteList";
-    li.textContent = name;
-    Control.notes.appendChild(li);
+    const div = document.createElement("div");
+    div.className = "note";
+    div.textContent = name;
+    Control.notes.appendChild(div);
   }
 
   static createTabNode(name) {
-    const li = document.createElement("li");
-    li.className = "tabList";
-    li.textContent = name;
-    Control.tabs.appendChild(li);
+    const div = document.createElement("div");
+    div.className = "tab";
+    div.textContent = name;
+    Control.tabs.appendChild(div);
   }
 }
 
@@ -40,6 +40,18 @@ class Control {
     }
   }
 
+  static reset() {
+    console.log("clear");
+    localStorage.clear();
+    while (this.notes.hasChildNodes()) {
+      this.notes.removeChild(this.notes.firstChild);
+    }
+    while (this.tabs.hasChildNodes()) {
+      this.tabs.removeChild(this.tabs.firstChild);
+    }
+    this.activeTab = null;
+  }
+
   static selectTab(e) {
     if (Control.activeTab) {
     }
@@ -48,7 +60,8 @@ class Control {
   static createNewFile() {
     let name = prompt("파일명을 입력해주세요");
 
-    let nl = this.notes.getElementsByTagName("li");
+    let nl = this.notes.getElementsByTagName("div");
+    console.log(nl);
     for (let i = 0; i < nl.length; i++) {
       if (nl[i].innerText === name) {
         alert("동일한 이름을 가진 파일이 있습니다");
@@ -58,6 +71,7 @@ class Control {
 
     let notepad = new Notepad(name);
     localStorage.setItem(name, JSON.stringify(notepad));
+    this.activateTab(name);
   }
 
   static saveText() {
@@ -74,10 +88,13 @@ class Control {
   }
 
   static activateTab(name) {
-    let tl = this.tabs.getElementsByTagName("li");
+    // this.tabs = document.getElementById("tabList");
+    let tl = this.tabs.getElementsByTagName("div");
     for (let i = 0; i < tl.length; i++) {
       if (tl[i].innerText === name) {
-        tl[i].className += "activeTab";
+        tl[i].className += " activeTab";
+      } else {
+        tl[i].classList.remove("activeTab");
       }
     }
   }
@@ -87,6 +104,10 @@ function menuClickHandler(e) {
   switch (e.target.id) {
     case "newBtn":
       Control.createNewFile();
+      break;
+
+    case "resetBtn":
+      Control.reset();
       break;
   }
 }
