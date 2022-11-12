@@ -48,6 +48,8 @@ class Control {
   static tl = this.tabs.getElementsByClassName("tab");
   static textBox = document.getElementById("textBox");
 
+  static saveBtn = document.getElementById("saveBtn");
+  static saveAsBtn = document.getElementById("saveAsBtn");
   static cancelLoadBtn = document.getElementById("cancelLoadBtn");
 
   static activeTab;
@@ -57,6 +59,7 @@ class Control {
     for (let i = 0; i < localStorage.length; i++) {
       Notepad.createListNode(localStorage.key(i));
     }
+    this.editorOff();
   }
 
   static reset() {
@@ -68,6 +71,7 @@ class Control {
       this.tabs.removeChild(this.tabs.firstChild);
     }
     this.activeTab = null;
+    this.editorOff();
   }
 
   static createNewFile() {
@@ -110,7 +114,7 @@ class Control {
   }
 
   static activateTab(name) {
-    this.textBox.style.display = "block";
+    this.editorOn();
     for (let i = 0; i < this.tl.length; i++) {
       if (this.tl[i].id === name) {
         this.tl[i].classList.add("activeTab");
@@ -167,8 +171,8 @@ class Control {
     }
     this.tabs.removeChild(child);
     if (this.tl.length === 0) {
-      this.textBox.style.display = "none";
       this.activeTab = null;
+      this.editorOff();
     } else if (leftChild === -1 && 1 <= this.tl.length) {
       this.activateTab(this.tl[0].id);
     } else {
@@ -194,6 +198,18 @@ class Control {
       localStorage.setItem(newName, JSON.stringify(notepad));
       this.activateTab(newName);
     }
+  }
+
+  static editorOn() {
+    this.textBox.style.display = "block";
+    this.saveBtn.disabled = false;
+    this.saveAsBtn.disabled = false;
+  }
+
+  static editorOff() {
+    this.textBox.style.display = "none";
+    this.saveBtn.disabled = true;
+    this.saveAsBtn.disabled = true;
   }
 }
 
