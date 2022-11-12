@@ -26,6 +26,20 @@ ul {
 
 #fileList {
   display: none;
+  border: 1px solid black;
+  background-color: skyblue;
+  position: fixed;
+  width: 50%;
+  height: auto;
+  min-height: 50px;
+  top: 200px;
+  left: 25%;
+}
+
+#cancelLoadBtn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 
 #tabSection {
@@ -44,12 +58,30 @@ ul {
   margin: 10px 10px;
 }
 
+#textBox {
+  display: none;
+}
+
 .tab {
   flex: 1;
   background-color: pink;
   border: 1px solid black;
 }
 
+.changedTab {
+  font-weight: bold;
+}
+
 .activeTab {
   background-color: yellow;
+}
+
+.note {
+  display: flex;
+  flex-direction: row;
+}
+
+.tab {
+  display: flex;
+  flex-direction: row;
 }
