@@ -73,16 +73,18 @@ class Control {
   static createNewFile() {
     let name = prompt("파일명을 입력해주세요");
 
-    for (let i = 0; i < this.nl.length; i++) {
-      if (this.nl[i].id === name) {
-        alert("동일한 이름을 가진 파일이 있습니다");
-        return;
+    if (name) {
+      for (let i = 0; i < this.nl.length; i++) {
+        if (this.nl[i].id === name) {
+          alert("동일한 이름을 가진 파일이 있습니다");
+          return;
+        }
       }
-    }
 
-    let notepad = new Notepad(name);
-    localStorage.setItem(name, JSON.stringify(notepad));
-    this.activateTab(name);
+      let notepad = new Notepad(name);
+      localStorage.setItem(name, JSON.stringify(notepad));
+      this.activateTab(name);
+    }
   }
 
   static saveText() {
@@ -166,6 +168,7 @@ class Control {
     this.tabs.removeChild(child);
     if (this.tl.length === 0) {
       this.textBox.style.display = "none";
+      this.activeTab = null;
     } else if (leftChild === -1 && 1 <= this.tl.length) {
       this.activateTab(this.tl[0].id);
     } else {
@@ -176,19 +179,21 @@ class Control {
   static saveAs() {
     let newName = prompt("파일명을 입력해주세요.");
 
-    for (let i = 0; i < this.nl.length; i++) {
-      if (this.nl[i].id === newName) {
-        alert("동일한 이름을 가진 파일이 있습니다");
-        return;
+    if (newName) {
+      for (let i = 0; i < this.nl.length; i++) {
+        if (this.nl[i].id === newName) {
+          alert("동일한 이름을 가진 파일이 있습니다");
+          return;
+        }
       }
-    }
 
-    let file = JSON.parse(localStorage.getItem(this.activeTab));
-    let notepad = new Notepad(newName);
-    notepad.text = file.tmpText;
-    notepad.tmpText = file.tmpText;
-    localStorage.setItem(newName, JSON.stringify(notepad));
-    this.activateTab(newName);
+      let file = JSON.parse(localStorage.getItem(this.activeTab));
+      let notepad = new Notepad(newName);
+      notepad.text = file.tmpText;
+      notepad.tmpText = file.tmpText;
+      localStorage.setItem(newName, JSON.stringify(notepad));
+      this.activateTab(newName);
+    }
   }
 }
 
