@@ -132,17 +132,6 @@
 > 6. 해당하는 하위 네임 서버에서 숫자로 이루어진 IP 주소를 얻고,
 > 7. 웹 브라우저에게 주어진 IP 주소로 이동할 수 있도록 해준다.
 
-## Resources
-* [OSI 모형](https://ko.wikipedia.org/wiki/OSI_%EB%AA%A8%ED%98%95)
-* [IP](https://ko.wikipedia.org/wiki/%EC%9D%B8%ED%84%B0%EB%84%B7_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
-  * [Online service Traceroute](http://ping.eu/traceroute/)
-* [TCP](https://ko.wikipedia.org/wiki/%EC%A0%84%EC%86%A1_%EC%A0%9C%EC%96%B4_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
-  * [Wireshark](https://www.wireshark.org/download.html)
-* [HTTP](https://ko.wikipedia.org/wiki/HTTP)
-  * Chrome developer tool, Network tab
-* [DNS](https://ko.wikipedia.org/wiki/%EB%8F%84%EB%A9%94%EC%9D%B8_%EB%84%A4%EC%9E%84_%EC%8B%9C%EC%8A%A4%ED%85%9C)
-  * [Web-based Dig](http://networking.ringofsaturn.com/Tools/dig.php)
-
 ## Checklist
 * 인터넷은 어떻게 동작하나요? Internet Protocol Suite의 레이어 모델에 입각하여 설명해 보세요.
 
