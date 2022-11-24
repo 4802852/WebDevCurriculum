@@ -3,10 +3,89 @@
 ## Topics
 * HTTP Method
 
-
+> ### HTTP 메소드
+> 
+> HTTP 메소드는 **클라이언트가 웹 서버에게 사용자 요청의 목적이나 종류를 알리는 수단**이다. 최초에는 GET 메소드 하나밖에 없었지만 이후 다양한 메소드들이 생겨났다.
+> 
+> ### HTTP 메소드의 종류와 특징
+> 
+> HTTP 메소드는 총 9가지가 있고, 이 중 5가지가 주로 쓰인다.
+> 
+> - GET: 리소스 조회
+> - POST: 요청 데이터 처리, 주로 데이터 등록에 사용
+> - PUT: 리소스를 대체, 해당 리소스가 없으면 생성
+> - PATCH: 리소스를 일부만 변경
+> - DELETE: 리소스 삭제
+> - HEAD: GET 과 동일하지만 메세지 부분을 제외하고, 상태 줄과 헤더만 반환
+> - OPTIONS: 대상 리소스에 대한 통신 가능 옵션을 설명
+> - CONNECT: 대상 자원으로 식별되는 서버에 대한 터널을 설정
+> - TRACE: 대상 리소스에 대한 경로를 따라 메시지 루프백 테스트를 수행
+> 
+> ### HTTP 메소드의 속성
+> 
+> 1. **안전(Safe Methods)**: 계속해서 메소드를 호출해도 리소스를 변경하지 않는다. 주요 메소드 중에는 GET 메소드가 안전하다.
+> 2. **멱등(Idempotent Methods)**: 메소드를 계속 호출해도 결과가 같다. GET, PUT, DELETE 는 멱등하다고 볼 수 있지만 POST, PATCH 는 멱등하다고 볼 수 없다.
+> 3. **캐시가능(Cacheable Methods)**: 캐싱을 해서 데이터를 효율적으로 가져올 수 있다. GET, HEAD, POST, PATCH 가 캐시가 가능하지만 실제로는 GET, HEAD 만 주로 캐싱이 쓰인다.
+>
+> ![http_method](./img/http-method.png)
+> 
+> ### HTTP 상태코드
+> 
+> HTTP 상태코드는 클라이언트가 보낸 요청의 처리 상태를 응답에서 알려주는 기능이다.
+> 
+> - 1xx (Informational): 요청이 수신되어 처리중
+> - 2xx (Successful): 요청 정상 처리
+> - 3xx (Redirection): 요청을 완료하면 추가 행동이 필요
+> - 4xx (Client Error): 클라이언트 오류, 잘못된 문법 등으로 서버가 요청을 수행할 수 없음.
+> - 5xx (Server Error): 서버 오류, 서버가 정상 요청을 처리하지 못함
+> 
+> ### HTTP 상태코드 종류와 의미
+> 
+> 100번대는 요청이 수신되어 처리중이라는 뜻인데 거의 사용되지 않는다.
+> 
+> **200번대**
+> 
+> - 200 OK: 요청 성공
+> - 201 Created: 요청 성공해서 새로운 리소스가 생성됨
+> - 202 Accepted: 요청이 접수되었으나 처리가 완료되지 않았음
+> - 204 No Content: 서버가 요청을 성공적으로 수행했지만, 응답 페이로드 본문에 보낼 데이터가 없음
+> 
+> **300번대**
+> 
+> - 301 Moved Permanently : 리다이렉트시 요청 메서드가 GET으로 변하고, 본문이 제거될 수 있음
+> - 302 Found : 리다이렉트시 요청 메서드가 GET으로 변하고, 본문이 제거될 수 있음
+> - 303 See Other : 리다이렉트시 요청 메서드가 GET으로 변경
+> - 304 Not Modified : 캐시를 목적으로 사용
+> - 307 Temporary Redirect : 리다이렉트시 요청 메서드와 본문 유지(요청 메서드를 변경하면 안된다.)
+> - 308 Permanent Redirect : 리다이렉트시 요청 메서드와 본문 유지(처음 POST를 보내면 리다이렉트도 POST 유지)
+> 
+> **400번대**
+> 
+> - 400 Bad Request : 클라이언트가 잘못된 요청을 해서 서버가 요청을 처리할 수 없음
+> - 401 Unauthorized : 클라이언트가 해당 리소스에 대한 인증이 필요함
+> - 403 Forbidden : 서버가 요청을 이해했지만 승인을 거부함
+> - 404 Not Found : 요청 리소스를 찾을 수 없음
+>
+> **500번대**
+> 
+> - 500 Internal Server Error : 서버 문제로 오류 발생, 애매하면 500 오류
+> - 503 Service Unavailable : 서비스 이용 불가
 
 * node.js `http` module
   * `req`와 `res` 객체
+
+> ### Node.js HTTP Module
+> 
+> 
+
+
+
+
+
+
+
+
+
 
 ## Resources
 * [MDN - Content-Type Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type)
