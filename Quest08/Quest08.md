@@ -76,23 +76,141 @@
 
 > ### Node.js HTTP Module
 > 
+> HTTP(HyperText Transfer Protocol)는 TCP/IP를 기반으로 둔 프로토콜이다. HTML 페이지를 전달하는 데 주로 사용하고, 다른 파일을 전송할 때에도 사용한다.
 > 
-
-
-
-
-
-
-
-
-
-
-## Resources
-* [MDN - Content-Type Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type)
-* [MDN - HTTP Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
-* [MDN - MIME Type](https://developer.mozilla.org/en-US/docs/Glossary/MIME_type)
-* [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
-* [HTTP Node.js Manual & Documentation](https://nodejs.org/api/http.html)
+> HTTP 모듈은 Node.js 의 가장 기본적인 웹 모듈로써, 웹 서버와 클라이언트를 생성하는 것과 관련된 모든 기능을 담당한다.
+> 
+> #### server 객체
+> 
+> **메서드(Method)**
+> 
+> |메서드 이름|설명|
+> |---|---|
+> |`server.listen(port[, callback])`| 서버를 실행한다.|
+> |`server.close([callback])`|서버를 종료한다.|
+> 
+> ```
+> // 모듈 추출과 동시에 서버 생성
+> var server = require('http').createServer();
+> 
+> // 서버 실행
+> server.listen(52273, function () {
+>     console.log('Server is Running at http://127.0.0.1:52273');
+> });
+>
+> // 10초 후 함수 실행
+> var test = function() {
+>     // 서버 종료
+>     server.close();
+> };
+> 
+> // setTimeout(callback, timout?:any)
+> setTimeout(test, 10000);
+> ```
+> 
+> **이벤트(Event)**
+> 
+> server 객체에서 중요한 것은 이벤트로, server 객체는 EventEmitter 객체를 기반으로 만들어졌다.
+> |이벤트 이름|설명|
+> |---|---|
+> |`server.on('request', callback)`|클라이언트가 요청할 때 발생하는 이벤트|
+> |`server.on('connection', callback)`|클라이언트가 접속할 때 발생하는 이벤트|
+> |`server.on('close', callback)`|서버가 종료될 때 발생하는 이벤트|
+> |`server.on('checkContinue', callback)`|클라이언트가 지속적인 연결을 하고 있을 때 발생하는 이벤트|
+> |`server.on('upgrade', callback)`|클라이언트가 HTTP 업그레이드를 요청할 때 발생하는 이벤트|
+> |`server.on('clientError', callback)`|클라이언트에서 오류가 발생할 때 발생하는 이벤트|
+> 
+> #### response 객체
+> 
+> 클라이언트에 웹 페이지를 제공하려면 request 이벤트 리스너의 response 객체를 사용해 응답 메시지를 작성해야 한다.
+>
+> |메서드 이름|설명|
+> |---|---|
+> |`response.writeHead(statusCode[, statusMessage][, headers])`|응답 헤더를 작성한다.|
+> |`response.end([data][, encoding][, callback])`|응답 본문을 작성한다.|
+> 
+> **File System 모듈을 사용한 HTML 페이지 제공**
+> 
+> ```
+> <!DOCTYPE html>
+> <html>
+>     <head>
+>         <title>Index</title>
+>     </head>
+>     <body>
+>         <h1>Hello Node.js</h1>
+>         <h2>Author. RintIanTta</h2>
+>         <hr />
+>         <p>Lorem ipsum dolor sit amet.</p>
+>     </body>
+> </html>
+> ```
+> 
+> ```
+> var fs = require('fs');
+> var http = require('http');
+> 
+> http.createServer(function (request, response) {
+>     // HTMLPage.html의 내용을 비동기식으로 읽어와 response.end(data)를 통해 클라이언트에게 뿌려준다.
+>     fs.readFile('HTMLPage.html', function (error, data) {
+>         response.writeHead(200, { 'Content-Type': 'text/html' });
+>         response.end(data);
+>     })
+> }).listen(52273, function () {
+>     console.log("로컬 서버(포트:52273)가 시작되었습니다...");
+> });
+> ```
+> 
+> **이미지와 음악 파일 제공**
+> 
+> 이미지와 음원 모두 `readFile()` 메서드로 읽어온다. 특정 형식 파일을 클라이언트에게 제공할 때 가장 중요한 것은 응답 헤더의 Content-Type 속성이다.
+> 
+> Content-Type 속성은 MIME 형식을 입력한다.
+> 
+> |응답 헤더 Content-Type 속성|	파일 확장자|
+> |---|---|
+> |`response.writeHead(200, {'Content-Type':'image/jpeg'})`|jpeg, jpg 등의 이미지 파일 제공|
+> |`response.writeHead(200, {'Content-Type':'audio/mp3'})`|wav, mp3 등의 오디오 파일 제공|
+> 
+> **쿠키(Cookie)**
+> 
+> 키와 값이 들어있는 작은 데이터 조각이다. 이름, 값, 파기 날짜, 경로 등의 정보를 포함하고 있다.
+> 
+> **페이지 강제 이동**
+> 
+> 응답 헤더의 Location 속성을 사용해 웹 페이지를 강제로 이동시킨다.
+> 
+> #### request 객체
+>
+> |속성 이름|	설명|
+> |---|---|
+> |method|클라이언트의 요청 방식을 나타낸다.|
+> |url|클라이언트가 요청한 URL을 나타낸다.|
+> |headers|요청 메시지 헤더를 나타낸다.|
+> |trailers|요청 메시지 트레일러를 나타낸다.|
+> |httpVersion|HTTP 프로토콜 버전을 나타낸다.|
+> 
+> **url 속성을 사용한 페이지 구분**
+> 
+> request 의 url 경로를 변수에 담은 후 if 문에 따라 분기하여 처리한다.
+> 
+> **method 속성을 사용한 페이지 구분**
+> 
+> request 의 method 속성에 따른 if 문 분기로 로직을 처리한다. (GET, POST, PUT, DELETE)
+> 
+> **GET 요청 매개변수 추출**
+> 
+> > var query = url.parse(request.url, true).query
+> 
+> 클라이언트의 GET 요청시에는 보통 html 문서를 보여주면 된다.
+>
+> **POST 요청 매개변수 추출**
+> 
+> POST 방식은 request 이벤트가 발생한 후 request 객체의 data 이벤트로 데이터가 전달된다. 클라이언트의 POST 방식의 요청시에는 매개변수를 추출해 내부 로직을 처리한다.
+> 
+> **쿠키 추출**
+> 
+> 쿠키는 request 객체의 headers 속성 안 cookie 속성에서 추출할 수 있다.
 
 ## Checklist
 * HTTP의 GET과 POST 메소드는 어떻게 다른가요?
