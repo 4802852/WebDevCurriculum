@@ -195,23 +195,68 @@
 > > `OPTIONS` 메서드로 서버에 예비 요청을 보내고, 서버는 이 예비 요청에 대한 응답으로 Access-Control-Allow-Origin 헤더를 포함한 응답을 브라우저에 보낸다. 브라우저는 해당 헤더를 확인해서 CORS 동작을 수행할 지 판단한다.
 >
 > ### CORS 에러 해결 방법
-> 
-
-
-## Resources
-* [Express Framework](http://expressjs.com/)
-* [Fastify Framework](https://www.fastify.io/)
-* [MDN - Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-* [MDN - XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
-* [REST API Tutorial](https://restfulapi.net/)
-* [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
-* [MDN - CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+>
+> 서버에서 `Access-Control-Allow-Origin` 헤더를 포함한 응답을 브라우저에 보내는 방식으로 CORS 에러를 해결할 수 있다. 프론트엔드 개발자가 CORS 에러를 확인했다면, 서버에 해당 헤더를 포함해달라고 요청해야 한다.
+>
+> Node.js 의 Express 는  `cors` 라는 서드파티 미들웨어에서 CORS 응답헤더를 추가해주기 때문에 별도의 CORS 응답 헤더를 추가하지 않아도 무방하다.
+>
+> > ### HTTP 응답 헤더
+> >
+> > `Access-Control-Allow-Origin: <origin> | *` : `Access-Control-Allow-Origin` 헤어데 작성된 출처만 브라우저가 리소스를 접근할 수 있도록 허용한다.
+> > 
+> > `Access-Control-Allow-Methods: <method>[, <method>]`: 브라우저에서 보내는 요청 헤더에 포함된 `Access-Control-Request-Method` 헤더에 대한 응답 결과이다.
+> >
+> > `Access-Control-Expose-Headers: <header-name>[, <header-name>]`: 서버에서 응답 헤더에 이 헤더를 추가해주어야 브라우저의 자바스크립트에서 헤더에 접근할 수 있다.
+> >
+> > `Access-Control-Allow-Headers: <header-name>[, <header-name>]`: 브라우저에서 보내는 요청 헤어데 포함된 `Access-Control-Request-Headers` 헤더에 대한 응답 결과이다.
+> >
+> > `Access-Control-Max-Age: <delta-seconds>`: preflight 요청 결과를 캐시할 수 있는 시간을 나타낸다.
+> >
+> > `Access-Control-Allow-Credentials: true`: 자바스크립트 요청에서 `credentials` 가 `include` 일 때 요청에 대한 응답을 할 수 있는지를 나타낸다.
+> >
+> > ### Http 요청 헤더
+> >
+> > `Origin: <origin>`: 요청하는 대상의 출처를 나타낸다.
+> >
+> > `Access-Control-Request-Method: <method>`: 실제 요청이 어떤 HTTP 메서드를 나타내는지 서버에 알려준다.
+> >
+> > `Access-Control-Request-Headers: <field-name>[, <field-name>]`: 브라우저에서 보내는 커스텀 헤더 이름을 서버에 알려준다.
+>
+> ### 기타 CORS 해결 방법
+>
+> > ### JSONP
+> > 
+> > JSONP(JSON with Padding) 은 `<script>` 요소가 외부 출처 리소스를 가져올 수 있는 특징을 사용하는 방법이다.
+> >
+> > ### 프록시 서버
+> > 
+> > 프론트엔드와 백엔드 사이에 프록시 서버를 두는 방법으로 CORS 를 해결할 수 있다.
 
 ## Checklist
 * 비동기 프로그래밍이란 무엇인가요?
+
+> 비동기 프로그래밍이란 크기가 큰 파일을 읽거나 원격 컴퓨터에 접속하는 등 시간이 오래걸리는 작업을 수행할 때 흔히 사용된다.
+>
+> 동기 프로그래밍이 시간이 얼마나 걸리든 요청에 대한 응답이 올 때까지 프로그램 수행을 멈추고 기다리는 반면, 비동기 프로그래밍은 연산을 요청한 후에 결과를 기다리지 않고 다른 작업을 수행하면서 그 결과를 기다리게 된다.
+>
+> - 비동기I/O: I/O가 빈번한 애플리케이션은 대부분의 시간을 요청한 I/O 가 수행되기를 기다리면서 소비하게 된다. 이렇게 소비되는 시간을 막고자 일단 I/O 를 요청한 후에 결과를 보지 않고 다른 연산을 하다가 나중에 앞서 요청한 I/O의 결과를 확인하는 방식을 채택한다.
+> - 폴링(Polling): 비동기I/O 의 가장 기본적인 형태이다. 폴링은 일단 I/O 를 요청한 후에 일정한 시간이 지난 후에 I/O가 끝났는지를 물어보는 방식이다. 폴링에서는 종료 여부를 얼마나 자주 확인하는냐가 중요한 변수가 되고, 폴링을 위해 자주 CPU 를 사용하면 다른 프로세스가 연산을 수행할 시간을 빼앗게 된다.
+> - Select/Poll: BSD 유닉스 계열에서 출발한 Select 시스템 콜은 폴링의 단점을 극복하기 위한 방법니다. Select 는 한 번에 여러개의 파일 디스크립터를 감시하는 역할을 한다. 여러개의 디스크립터를 감시하다가 폴링과 I/O 가 가능해지면 꺠어나서 처리하는 방식이다. Select 는 기다리는 동안 CPU 를 낭비하지 않으면서 기다린다는 차이가 있다.
+> - 시그널 혹은 콜백함수: 시그널이나 콜백함수가 하는 역할은 I/O를 비동기로 요청하고 I/O가 끝나면 시그널을 발생시켜 I/O 의 종료 사실을 알려준다.
+> - 멀티스레드: 동기 I/O 를 사용하면서도 비동기 I/O의 효과를 낼 수 있는 방법으로써 멀티스레드가 있다. 멀티스레드란 애플리케이션의 진행을 방해하지 않기 위해서 시간이 오래걸리는 작업을 별도의 스레드로 실행시키는 방법이다.
+
   * 콜백을 통해 비동기적 작업을 할 때의 불편한 점은 무엇인가요? 콜백지옥이란 무엇인가요?
+
+> 콜백지옥이란 비동기 함수의 콜백 내부에서 다음 비동기 함수를 호출하는 경우, 코드의 들여쓰기 수준이 감당하기 힘들 정도로 깊어지는 현상을 말한다. 주로 이벤트 처리나 서버 통신과 같은 비동기 작업을 제어하기 위해 사용되는데 이러한 프로그래밍은 가독성이 떨어지고 코드 수정을 어렵게 한다.
+
   * 자바스크립트의 Promise는 어떤 객체이고 어떤 일을 하나요?
+
+> Promise 는 new 연산자와 함께 호출되고 인자로 콜백을 받는다. Promise 는 호출될 때 바로 실행되지만 그 안에 콜백은 resolve, reject 둘 중 하나가 호출되기 전에 then, catch 로 넘어가지 않는다. resolve, reject 로 성공 혹은 실패로 결과 값을 나타내어 다음 작업을 체이닝할 수 있다.
+
   * 자바스크립트의 `async`와 `await` 키워드는 어떤 역할을 하며 그 정체는 무엇일까요?
+
+> ES2017에서 추가된 async/await 문법으로 콜백지옥을 해결할 수 있다. 비동기 작업을 수행하고자 하는 함수 앞에 async 를 표기하고, 함수 내부에서 실질적인 비동기 작업이 필요한 위치마다 await 을 표기하는 것만으로도 뒤의 내용을 Promise 로 자동 전환하고 해당 내용이 resolve 된 이후에 다음으로 진행하게 된다.
+
 * 브라우저 내 스크립트에서 외부 리소스를 가져오려면 어떻게 해야 할까요?
   * 브라우저의 `XMLHttpRequest` 객체는 무엇이고 어떻게 동작하나요?
   * `fetch` API는 무엇이고 어떻게 동작하나요?
